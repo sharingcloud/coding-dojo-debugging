@@ -43,10 +43,10 @@ logging.info("Je suis une info")
 logging.error("Je suis une erreur")
 ```
 
-Un exemple complet est dans le dossier `1-logging`. Pour lancer le script, il faut exécuter:
+Un exemple complet est dans le dossier `examples/1-logging`. Pour lancer le script, il faut exécuter:
 
 ```bash
-python 1-logging/main.py
+python examples/1-logging/main.py
 ```
 
 La sortie devrait donner ça:
