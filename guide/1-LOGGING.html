@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Logging - Coding Dojo - Chapitre 1 - Debugging</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Debugging!">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="0-INTRODUCTION.html">Introduction</a></li><li><a href="1-LOGGING.html" class="active"><strong aria-hidden="true">1.</strong> Logging</a></li><li><a href="2-DEBUGGING-INTRO.html"><strong aria-hidden="true">2.</strong> Intro au debugging</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Coding Dojo - Chapitre 1 - Debugging</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#section-1---le-logging" id="section-1---le-logging"><h1>Section 1 - Le logging</h1></a>
+<p>Avant de commencer à aborder le debugging, on va vite fait voir les autres façons classiques de faire.</p>
+<a class="header" href="#a1-la-classique---le-printf-debugging" id="a1-la-classique---le-printf-debugging"><h2>1. La classique - le printf-debugging</h2></a>
+<p>Ce nom vient du langage C et de l'utilisation de <code>printf</code> (équivalent en gros de la fonction <code>print</code> de Python) qui permet facilement et rapidement d'afficher quelque chose sur la sortie standard.</p>
+<pre><code class="language-python">&gt;&gt;&gt; print(&quot;Coucou, la sortie standard&quot;)
+Coucou, la sortie standard
+</code></pre>
+<p>C'est simple, ça marche bien, et c'est complètement ingérable quand y'a 15.000 appels partout sur une centaine de fichiers.</p>
+<p>Comme cette technique devrait être plutôt bien maîtrisée, on va directement monter d'un cran grâce au module Python <code>logging</code>.</p>
+<a class="header" href="#a2-la-meilleure-solution---les-loggers" id="a2-la-meilleure-solution---les-loggers"><h2>2. La meilleure solution - les loggers</h2></a>
+<ul>
+<li>Documentation officielle: <a href="https://docs.python.org/3.6/library/logging.html">https://docs.python.org/3.6/library/logging.html</a></li>
+<li>Logging cookbook: <a href="https://docs.python.org/3/howto/logging-cookbook.html">https://docs.python.org/3/howto/logging-cookbook.html</a></li>
+</ul>
+<p>Voici un conseil: a moins qu'il y ait besoin de formatter du texte d'une certaine façon ou de faire un outil en ligne de commande avec interactions (donc scripts, apps CLI ou commandes custom Django), n'utilisez plus <code>print</code>, car il y a beaucoup mieux.</p>
+<p>La technique est de passer par les loggers, configurable à l'aide du module <code>logging</code> de Python, qui permet de structurer les différentes entrées de log réparties dans toutes les sources d'un projet.</p>
+<p>Il y a 5 niveaux de log standard, par ordre d'importance:</p>
+<ul>
+<li>DEBUG</li>
+<li>INFO</li>
+<li>WARNING</li>
+<li>ERROR</li>
+<li>CRITICAL</li>
+</ul>
+<p>Pour écrire dans le logger standard, il suffit de faire:</p>
+<pre><code class="language-python">import logging
+
+# Message d'info
+logging.info(&quot;Je suis une info&quot;)
+# Message d'erreur
+logging.error(&quot;Je suis une erreur&quot;)
+</code></pre>
+<p>Un exemple complet est dans le dossier <code>1-logging</code>. Pour lancer le script, il faut exécuter:</p>
+<pre><code class="language-bash">python 1-logging/main.py
+</code></pre>
+<p>La sortie devrait donner ça:</p>
+<pre><code class="language-text">[__main__] INFO 2019-02-07 22:16:50,779 Je démarre le script...
+[counter] INFO 2019-02-07 22:16:50,779 Je vais compter de 1 à 2
+[counter] DEBUG 2019-02-07 22:16:50,780 Je dis 0...
+[counter] DEBUG 2019-02-07 22:16:50,780 Je dis 1...
+[counter] DEBUG 2019-02-07 22:16:50,780 J'ai fini de compter !
+[spammer] DEBUG 2019-02-07 22:16:50,780 Je spam le debug !
+[spammer] INFO 2019-02-07 22:16:50,780 Je spam l'info !
+[counter] ERROR 2019-02-07 22:16:50,780 Je ne sais pas compter les nombres inférieurs à 1
+[spammer] ERROR 2019-02-07 22:16:50,781 Je spam l'erreur !
+[counter] INFO 2019-02-07 22:16:50,781 Je vais compter de 1 à 10
+[counter] DEBUG 2019-02-07 22:16:50,781 Je dis 0...
+[counter] DEBUG 2019-02-07 22:16:50,781 Je dis 1...
+[counter] DEBUG 2019-02-07 22:16:50,781 Je dis 2...
+[counter] DEBUG 2019-02-07 22:16:50,781 Je dis 3...
+[counter] DEBUG 2019-02-07 22:16:50,782 Je dis 4...
+[counter] DEBUG 2019-02-07 22:16:50,782 Je dis 5...
+[counter] DEBUG 2019-02-07 22:16:50,783 Je dis 6...
+[counter] DEBUG 2019-02-07 22:16:50,783 Je dis 7...
+[counter] DEBUG 2019-02-07 22:16:50,784 Je dis 8...
+[counter] DEBUG 2019-02-07 22:16:50,785 Je dis 9...
+[counter] DEBUG 2019-02-07 22:16:50,785 J'ai fini de compter !
+[__main__] INFO 2019-02-07 22:16:50,786 J'ai fini le script...
+</code></pre>
+<p>C'est plutôt bien structuré, avec <em>le module en cours</em>, <em>le niveau de message</em>, <em>la date</em>, et enfin <em>le contenu du message</em>. C'est quand même plus pratique qu'un appel à <code>print</code>.</p>
+<p>Pour que tous ces messages soient affichés, il faut au préalable configurer le système de logging, soit avec la fonction <code>basicConfig</code>, soit la fonction <code>config.dictConfig</code>. C'est cette deuxième fonction qui est utilisé dans Django.</p>
+<p>Pour mieux comprendre, regardez le fichier <code>config.py</code> du projet:</p>
+<pre><code class="language-python">LOGGING = {
+    &quot;version&quot;: 1,
+    &quot;formatters&quot;: {
+        &quot;verbose&quot;: {&quot;format&quot;: &quot;[%(name)s] %(levelname)s %(asctime)s %(message)s&quot;},
+        &quot;simple&quot;: {&quot;format&quot;: &quot;[%(name)s] %(levelname)s %(message)s&quot;},
+    },
+    &quot;handlers&quot;: {
+        &quot;console&quot;: {&quot;level&quot;: &quot;DEBUG&quot;, &quot;class&quot;: &quot;logging.StreamHandler&quot;, &quot;formatter&quot;: &quot;verbose&quot;},
+    },
+    &quot;loggers&quot;: {
+        &quot;__main__&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
+        &quot;spammer&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
+        &quot;counter&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
+    },
+}
+</code></pre>
+<p>Prenez le temps de comprendre ce dictionnaire à l'aide du <a href="https://docs.python.org/3/howto/logging-cookbook.html">logging cookbook</a>, mais en gros la section la plus importante est la section <code>loggers</code>.</p>
+<a class="header" href="#petit-exercice-pratique" id="petit-exercice-pratique"><h2>Petit exercice pratique</h2></a>
+<p>Pour voir si vous avez compris, voici quelques petites tâches à réaliser:</p>
+<ul>
+<li>Ajoutez un log <code>INFO</code> à l'entrée et la sortie de la fonction <code>count_and_spam</code> du fichier <code>counter.py</code>.</li>
+<li>Sans toucher aux entrées de log, seulement en changeant la configuration:
+<ul>
+<li>Cachez tous les messages du module <code>spammer</code>.</li>
+<li>Cachez les messages de plus basse importance qu'<code>INFO</code> sur le module <code>counter</code>.</li>
+<li>Ne laissez passer que les messages <code>ERROR</code> sur tous les modules.</li>
+</ul>
+</li>
+</ul>
+<p>Si vous êtes OK sur ces exercices, on passe à la suite !</p>
+<p style="float: left">
+    <a href="./0-INTRODUCTION.html">< Introduction</a>
+</p>
+<p style="float: right">
+    <a href="./2-DEBUGGING-INTRO.html">Intro au debugging ></a>
+</p>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="0-INTRODUCTION.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="2-DEBUGGING-INTRO.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="0-INTRODUCTION.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="2-DEBUGGING-INTRO.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

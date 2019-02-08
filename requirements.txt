@@ -1,0 +1,10 @@
+# ALl
+ipython<7.3
+ipdb<0.12
+
+# CLI
+click<7.1
+questionary<1.1
+
+# Web
+Django<2.2
