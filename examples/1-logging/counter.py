@@ -1,10 +1,11 @@
-# Counter
+"""Counter."""
 
 import logging
 
 import spammer
 
 logger = logging.getLogger(__name__)
+
 
 def count_up_to(n):
     if n < 1:

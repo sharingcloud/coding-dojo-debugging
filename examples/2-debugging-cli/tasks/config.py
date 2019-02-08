@@ -10,6 +10,5 @@ LOGGING = {
     },
     "loggers": {
         "": {"handlers": ["console"], "level": "DEBUG"},
-        "__main__": {"handlers": ["console"], "level": "INFO"},
     },
 }

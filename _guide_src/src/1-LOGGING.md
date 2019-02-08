@@ -18,6 +18,7 @@ Comme cette technique devrait être plutôt bien maîtrisée, on va directement 
 ## 2. La meilleure solution - les loggers
 
 - Documentation officielle: [https://docs.python.org/3.6/library/logging.html](https://docs.python.org/3.6/library/logging.html)
+- Logging HOWTO: [https://docs.python.org/3.6/howto/logging.html](https://docs.python.org/3.6/howto/logging.html)
 - Logging cookbook: [https://docs.python.org/3/howto/logging-cookbook.html](https://docs.python.org/3/howto/logging-cookbook.html)
 
 Voici un conseil: a moins qu'il y ait besoin de formatter du texte d'une certaine façon ou de faire un outil en ligne de commande avec interactions (donc scripts, apps CLI ou commandes custom Django), n'utilisez plus `print`, car il y a beaucoup mieux.

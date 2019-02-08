@@ -1,4 +1,4 @@
-# Spammer script
+"""Spammer script."""
 
 import logging
 
