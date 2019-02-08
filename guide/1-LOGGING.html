@@ -72,7 +72,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="0-INTRODUCTION.html">Introduction</a></li><li><a href="1-LOGGING.html" class="active"><strong aria-hidden="true">1.</strong> Logging</a></li><li><a href="2-DEBUGGING-INTRO.html"><strong aria-hidden="true">2.</strong> Intro au debugging</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="0-INTRODUCTION.html">Introduction</a></li><li><a href="1-LOGGING.html" class="active"><strong aria-hidden="true">1.</strong> Logging</a></li><li><a href="2-DEBUGGING-CLI.html"><strong aria-hidden="true">2.</strong> Debugging d'une application CLI</a></li><li><a href="3-DEBUGGING-WEB.html"><strong aria-hidden="true">3.</strong> Debugging d'une application web</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -148,17 +148,18 @@ Coucou, la sortie standard
 <a class="header" href="#a2-la-meilleure-solution---les-loggers" id="a2-la-meilleure-solution---les-loggers"><h2>2. La meilleure solution - les loggers</h2></a>
 <ul>
 <li>Documentation officielle: <a href="https://docs.python.org/3.6/library/logging.html">https://docs.python.org/3.6/library/logging.html</a></li>
+<li>Logging HOWTO: <a href="https://docs.python.org/3.6/howto/logging.html">https://docs.python.org/3.6/howto/logging.html</a></li>
 <li>Logging cookbook: <a href="https://docs.python.org/3/howto/logging-cookbook.html">https://docs.python.org/3/howto/logging-cookbook.html</a></li>
 </ul>
 <p>Voici un conseil: a moins qu'il y ait besoin de formatter du texte d'une certaine façon ou de faire un outil en ligne de commande avec interactions (donc scripts, apps CLI ou commandes custom Django), n'utilisez plus <code>print</code>, car il y a beaucoup mieux.</p>
 <p>La technique est de passer par les loggers, configurable à l'aide du module <code>logging</code> de Python, qui permet de structurer les différentes entrées de log réparties dans toutes les sources d'un projet.</p>
 <p>Il y a 5 niveaux de log standard, par ordre d'importance:</p>
 <ul>
-<li>DEBUG</li>
-<li>INFO</li>
-<li>WARNING</li>
-<li>ERROR</li>
-<li>CRITICAL</li>
+<li><strong>DEBUG</strong> - Pour les messages verbose avec un maximum d'information</li>
+<li><strong>INFO</strong> - Pour les infos ponctuelles mais utiles</li>
+<li><strong>WARNING</strong> - Pour les warnings, avec par exemple des warnings de dépréciation</li>
+<li><strong>ERROR</strong> - Pour les erreurs récupérables</li>
+<li><strong>CRITICAL</strong> - Pour les erreurs irrécupérables</li>
 </ul>
 <p>Pour écrire dans le logger standard, il suffit de faire:</p>
 <pre><code class="language-python">import logging
@@ -200,6 +201,7 @@ logging.error(&quot;Je suis une erreur&quot;)
 <p>Pour mieux comprendre, regardez le fichier <code>config.py</code> du projet:</p>
 <pre><code class="language-python">LOGGING = {
     &quot;version&quot;: 1,
+    &quot;disable_existing_loggers&quot;: False,
     &quot;formatters&quot;: {
         &quot;verbose&quot;: {&quot;format&quot;: &quot;[%(name)s] %(levelname)s %(asctime)s %(message)s&quot;},
         &quot;simple&quot;: {&quot;format&quot;: &quot;[%(name)s] %(levelname)s %(message)s&quot;},
@@ -208,9 +210,8 @@ logging.error(&quot;Je suis une erreur&quot;)
         &quot;console&quot;: {&quot;level&quot;: &quot;DEBUG&quot;, &quot;class&quot;: &quot;logging.StreamHandler&quot;, &quot;formatter&quot;: &quot;verbose&quot;},
     },
     &quot;loggers&quot;: {
-        &quot;__main__&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
-        &quot;spammer&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
-        &quot;counter&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
+        &quot;&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;DEBUG&quot;},
+        &quot;__main__&quot;: {&quot;handlers&quot;: [&quot;console&quot;], &quot;level&quot;: &quot;INFO&quot;},
     },
 }
 </code></pre>
@@ -232,7 +233,7 @@ logging.error(&quot;Je suis une erreur&quot;)
     <a href="./0-INTRODUCTION.html">< Introduction</a>
 </p>
 <p style="float: right">
-    <a href="./2-DEBUGGING-INTRO.html">Intro au debugging ></a>
+    <a href="./2-DEBUGGING-CLI.html">Debugging d'une application CLI ></a>
 </p>
                     </main>
 
@@ -245,7 +246,7 @@ logging.error(&quot;Je suis une erreur&quot;)
                         
 
                         
-                            <a rel="next" href="2-DEBUGGING-INTRO.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="2-DEBUGGING-CLI.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -263,7 +264,7 @@ logging.error(&quot;Je suis une erreur&quot;)
                 
 
                 
-                    <a href="2-DEBUGGING-INTRO.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="2-DEBUGGING-CLI.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

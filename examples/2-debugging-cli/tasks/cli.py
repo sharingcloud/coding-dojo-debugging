@@ -42,7 +42,10 @@ class TaskClient:
 
         running = True
         while running:
-            running = self.prompt_action()
+            try:
+                running = self.prompt_action()
+            except KeyboardInterrupt:
+                pass
 
         logger.info("Stopping task client...")
 

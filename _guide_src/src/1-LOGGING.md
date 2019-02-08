@@ -27,11 +27,11 @@ La technique est de passer par les loggers, configurable à l'aide du module `lo
 
 Il y a 5 niveaux de log standard, par ordre d'importance:
 
-- DEBUG
-- INFO
-- WARNING
-- ERROR
-- CRITICAL
+- **DEBUG** - Pour les messages verbose avec un maximum d'information
+- **INFO** - Pour les infos ponctuelles mais utiles
+- **WARNING** - Pour les warnings, avec par exemple des warnings de dépréciation
+- **ERROR** - Pour les erreurs récupérables
+- **CRITICAL** - Pour les erreurs irrécupérables
 
 Pour écrire dans le logger standard, il suffit de faire:
 
@@ -86,6 +86,7 @@ Pour mieux comprendre, regardez le fichier `config.py` du projet:
 ```python
 LOGGING = {
     "version": 1,
+    "disable_existing_loggers": False,
     "formatters": {
         "verbose": {"format": "[%(name)s] %(levelname)s %(asctime)s %(message)s"},
         "simple": {"format": "[%(name)s] %(levelname)s %(message)s"},
@@ -94,9 +95,8 @@ LOGGING = {
         "console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "verbose"},
     },
     "loggers": {
-        "__main__": {"handlers": ["console"], "level": "DEBUG"},
-        "spammer": {"handlers": ["console"], "level": "DEBUG"},
-        "counter": {"handlers": ["console"], "level": "DEBUG"},
+        "": {"handlers": ["console"], "level": "DEBUG"},
+        "__main__": {"handlers": ["console"], "level": "INFO"},
     },
 }
 ```
@@ -120,5 +120,5 @@ Si vous êtes OK sur ces exercices, on passe à la suite !
 </p>
 
 <p style="float: right">
-    <a href="./2-DEBUGGING-INTRO.html">Intro au debugging ></a>
+    <a href="./2-DEBUGGING-CLI.html">Debugging d'une application CLI ></a>
 </p>
