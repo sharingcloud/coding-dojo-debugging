@@ -1,0 +1,49 @@
+{% extends "crackme/_base.html" %}
+
+{% block title %}Challenge{% endblock title %}
+
+{% block body %}
+<header>
+  <div class="title">Crackme</div>
+  <div class="subtitle">Challenge page</div>
+
+  <div class="content">
+    <p>Welcome, {{ request.user.username }}.</p>
+    <p>You have to guess the secret code to access the secured content.</p>
+    <p>You have a generated ID each time you refresh this page.</p>
+    <p>Let the debugging begin.</p>
+  </div>
+</header>
+
+<section class="challenge">
+  {% csrf_token %}
+  <div class="field">
+    <label>Code</label>
+    <input type="text" name="code" id="code" />
+  </div>
+
+  <div class="errors">
+  </div>
+
+  <button type="button" id="submit">Submit</button>
+</section>
+
+<script>
+$(document).ready(function () {
+  var $submitBtn = $("#submit");
+  var $code = $("#code");
+
+  $submitBtn.click(function () {
+    var codeValue = $code.val();
+
+    check_code("{% url 'check_code' %}", codeValue)
+      .done(function () {
+        window.location = "{% url 'secure' %}";
+      })
+      .fail(function (xhr) {
+        alert("Wrong passcode.");
+      });
+  });
+});
+</script>
+{% endblock body %}

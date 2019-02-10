@@ -1,0 +1,32 @@
+{% extends "crackme/_base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block body %}
+<header>
+  <div class="title">Crackme</div>
+  <div class="subtitle">Login/Register form</div>
+</header>
+
+<section class="login">
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="field">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="Username" required />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Password" required />
+    </div>
+
+    <div class="errors">
+      {% for error in errors.values %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</section>
+{% endblock body %}

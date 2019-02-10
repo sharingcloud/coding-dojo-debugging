@@ -47,7 +47,7 @@ logging.error("Je suis une erreur")
 Un exemple complet est dans le dossier `examples/1-logging`. Pour lancer le script, il faut exécuter:
 
 ```bash
-python examples/1-logging/main.py
+> python examples/1-logging/main.py
 ```
 
 La sortie devrait donner ça:
@@ -114,6 +114,8 @@ Pour voir si vous avez compris, voici quelques petites tâches à réaliser:
     - Ne laissez passer que les messages `ERROR` sur tous les modules.
 
 Si vous êtes OK sur ces exercices, on passe à la suite !
+
+<hr />
 
 <p style="float: left">
     <a href="./0-INTRODUCTION.html">< Introduction</a>

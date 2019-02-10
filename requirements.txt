@@ -8,3 +8,5 @@ questionary<1.1
 
 # Web
 Django<2.2
+django-extensions<2.2
+werkzeug<0.15

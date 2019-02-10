@@ -138,14 +138,14 @@
                     <main>
                         <a class="header" href="#section-2---le-debugging-dune-application-cli" id="section-2---le-debugging-dune-application-cli"><h1>Section 2 - Le debugging d'une application CLI</h1></a>
 <p>Pour afficher certaines informations rapidement, on a vu que le printf-debugging ou le logging peuvent être très utiles.</p>
-<p>Malheureusement, il peut arriver qu'on veuille regarder le contenu d'une certaine variable à un instant <code>t</code> sans changer le code, exécuter un bout de fonction, réaliser un import ou supprimer le cache en plein milieu d'une fonction dans changer le code (pour tester un certain chemin par exemple).</p>
+<p>Malheureusement, il peut arriver qu'on veuille regarder le contenu d'une certaine variable à un instant <em>t</em> sans changer le code, exécuter un bout de fonction, réaliser un import ou supprimer le cache en plein milieu d'une fonction dans changer le code (pour tester un certain chemin par exemple).</p>
 <p>Il est possible de faire ça et encore plus à l'aide d'un outil fort pratique: le <strong>debugger</strong>.
 Dans l'univers Python, le debugger s'appelle <strong>pdb</strong>. Mais je vais vous présenter un outil plus propre et plus puissant basé dessus: <strong>ipdb</strong> (la plupart des commandes sont les mêmes).</p>
 <a class="header" href="#a1-découverte-de-lapp-de-tâches" id="a1-découverte-de-lapp-de-tâches"><h2>1. Découverte de l'app de tâches</h2></a>
 <p>Dans le dossier <code>examples/2-debugging-cli</code> vous trouverez une petite appli de gestion de TODO.
 Prenez le temps de regarder le code, il est pas trop complexe et facile à comprendre.</p>
 <p>Pour l'exécuter (s'assurer qu'on a bien chargé le virtualenv):</p>
-<pre><code class="language-bash">python examples/2-debugging-cli/main.py
+<pre><code class="language-bash">&gt; python examples/2-debugging-cli/main.py
 </code></pre>
 <pre><code class="language-text">[tasks.cli] INFO 2019-02-08 12:14:54,301 Running task client...
 
@@ -172,7 +172,7 @@ ID | Title                        | Date            | Done
 <a class="header" href="#a2-lentrée-du-debugger" id="a2-lentrée-du-debugger"><h2>2. L'entrée du debugger</h2></a>
 <p>Documentation officielle: <a href="https://docs.python.org/3.6/library/pdb.html">https://docs.python.org/3.6/library/pdb.html</a></p>
 <p>Pour entrer, tapez ça (juste ajouter <code>-m ipdb</code> avant):</p>
-<pre><code class="language-bash">python -m ipdb examples/2-debugging-cli/main.py
+<pre><code class="language-bash">&gt; python -m ipdb examples/2-debugging-cli/main.py
 </code></pre>
 <pre><code class="language-text">&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\main.py(1)&lt;module&gt;()
 ----&gt; 1 &quot;&quot;&quot;Main.&quot;&quot;&quot;
@@ -222,10 +222,16 @@ ipdb&gt; _
 </li>
 <li><strong>tb</strong>/tbreak - Ajouter un breakpoint temporaire: une fois passé, il disparaît</li>
 <li><strong>disable</strong> <em>id</em> - Désactive un breakpoint par son ID</li>
+<li><strong>restart</strong> - Recommence le debugger depuis le début</li>
+<li><strong>q</strong>/quit - Quitter le debugger</li>
 </ul>
 <p>C'est une grosse liste de commandes, et on apprend pas ça juste en lisant, pour commencer à maîtriser le debugger il faut pratiquer !</p>
-<a class="header" href="#a-exploration-dans-la-hiérarchie" id="a-exploration-dans-la-hiérarchie"><h3>a. Exploration dans la hiérarchie</h3></a>
-<p>On peut commencer avec <em>w</em>(here) pour savoir où on se trouve:</p>
+<blockquote>
+<p>Attention: si vous allez trop vite et passez une fonction au lieu d'entrer dedans, pas de panique, vous pouvez recommencer
+avec la commande <strong>restart</strong>, ou en sortant de pdb avec <strong>q</strong> et en relançant la commande. Je pense que ça va vous arriver assez souvent au début.</p>
+</blockquote>
+<a class="header" href="#a3-exploration-dans-la-hiérarchie" id="a3-exploration-dans-la-hiérarchie"><h2>3. Exploration dans la hiérarchie</h2></a>
+<p>On peut commencer avec <strong>w</strong>(here) pour savoir où on se trouve:</p>
 <pre><code class="language-text">ipdb&gt; w
   c:\...\python\current\lib\bdb.py(585)run()
     584         try:
@@ -264,7 +270,7 @@ Si on fait <strong>l</strong>(ist) ou <strong>ll</strong>, on voit le code coura
 ipdb&gt; _
 </code></pre>
 <p>On peut ensuite redescendre dans notre <code>main.py</code> en appelant 2 fois <strong>d</strong>(own).</p>
-<a class="header" href="#b-step-by-step" id="b-step-by-step"><h3>b. Step-by-step</h3></a>
+<a class="header" href="#a4-step-by-step" id="a4-step-by-step"><h2>4. Step-by-step</h2></a>
 <p>On va avancer dans le code en faisant 4 fois <strong>n</strong>(ext), jusqu'a ce que la ligne courante soit la ligne 12, avec l'appel à <code>main()</code>.</p>
 <blockquote>
 <p>Conseil: si on ne tape pas de commande et qu'on valide, la commande précédente est utilisée.</p>
@@ -295,17 +301,17 @@ Un des intérêts à utiliser <code>ipdb</code> plutot que le <code>pdb</code> s
 <p>On continue notre exploration en entrant dans la fonction <code>run</code>:</p>
 <pre><code class="language-text">ipdb&gt; s
 --Call--
-&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(37)run()
-     36
----&gt; 37     def run(self):
-     38         logger.info(&quot;Running task client...&quot;)
+&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(38)run()
+     37
+---&gt; 38     def run(self):
+     39         logger.info(&quot;Running task client...&quot;)
 
 ipdb&gt; _
 </code></pre>
-<p>On va tenter de placer un breakpoint sur l'appel de la fonction <code>prompt_action</code>. En listant le code (<strong>ll</strong>), on voit que l'appel est sur la ligne <em>46</em>.
-On peut donc taper <code>b 46</code>.</p>
-<pre><code class="language-text">ipdb&gt; b 46
-Breakpoint 1 at c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py:46
+<p>On va tenter de placer un breakpoint sur l'appel de la fonction <code>prompt_action</code>. En listant le code (<strong>ll</strong>), on voit que l'appel est sur la ligne <em>47</em>.
+On peut donc taper <code>b 47</code>.</p>
+<pre><code class="language-text">ipdb&gt; b 47
+Breakpoint 1 at c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py:47
 ipdb&gt; _
 </code></pre>
 <p>Ok, on a placé notre breakpoint, on peut maintenant continuer l'exécution du code jusqu'au bp en utilisant la commande <strong>c</strong>(ontinue).</p>
@@ -319,10 +325,10 @@ ID | Title                        | Date            | Done
 ---|------------------------------|-----------------|-------
 ---|------------------------------|-----------------|-------
 
-&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(46)run()
-     45             try:
-1--&gt; 46                 running = self.prompt_action()
-     47             except KeyboardInterrupt:
+&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(47)run()
+     46             try:
+1--&gt; 47                 running = self.prompt_action()
+     48             except KeyboardInterrupt:
 
 ipdb&gt; _
 </code></pre>
@@ -338,11 +344,13 @@ OrderedDict([('show task list', '_show_task_list'),
              ('remove task', '_remove_task'),
              ('export tasks', '_export_tasks'),
              ('import tasks', '_import_tasks'),
+             ('stats (buggy)', '_show_stats'),
              ('exit', '_exit')])
 ipdb&gt; _
 </code></pre>
 <p>D'ici, vous pouvez continuer l'exploration en utilisant tout ce que vous avez vu jusque là.</p>
-<a class="header" href="#c-exercice-1-trouve-le-code-caché" id="c-exercice-1-trouve-le-code-caché"><h3>c. Exercice 1: trouve le code caché</h3></a>
+<a class="header" href="#a5-exercices" id="a5-exercices"><h2>5. Exercices</h2></a>
+<a class="header" href="#exercice-1-trouve-le-code-caché" id="exercice-1-trouve-le-code-caché"><h3>Exercice 1: trouve le code caché</h3></a>
 <p>Le code contient un morceau de texte secret qu'il vous faut trouver sans lire ou modifier les sources depuis un éditeur et seulement en utilisant <strong>ipdb</strong>.
 Voici les indices:</p>
 <ul>
@@ -351,16 +359,23 @@ Voici les indices:</p>
 <li>Le code est stocké en base64. Vous pouvez décoder en utilisant la fonction <code>b64decode</code> de la lib standard <code>base64</code>.</li>
 <li>Il est possible d'exécuter du code arbitraire dans la session ipdb, en évitant d'écraser les commandes avec des noms de variables courts (donc il est également possible de faire des imports).</li>
 </ul>
-<a class="header" href="#d-exercice-2-crée-une-tâche-avant-le-démarrage-du-client" id="d-exercice-2-crée-une-tâche-avant-le-démarrage-du-client"><h3>d. Exercice 2: crée une tâche avant le démarrage du client</h3></a>
+<a class="header" href="#exercice-2-crée-une-tâche-avant-le-démarrage-du-client" id="exercice-2-crée-une-tâche-avant-le-démarrage-du-client"><h3>Exercice 2: crée une tâche avant le démarrage du client</h3></a>
 <p>C'est pas très compliqué, mais ça demande de se mettre au bon endroit au bon moment.
 Vous pouvez utiliser la fonction <code>add_task(title)</code> de l'objet <code>TaskManager</code>.</p>
+<a class="header" href="#exercice-3-fixer-le-bug-de-la-fonction-stats" id="exercice-3-fixer-le-bug-de-la-fonction-stats"><h3>Exercice 3: fixer le bug de la fonction stats</h3></a>
+<p>Visez la fonction <code>show_stats</code> de la classe <code>TaskManager</code>.</p>
+<ul>
+<li>Il est possible de changer les valeurs des variables à la volée</li>
+</ul>
+<hr />
 <p>C'est tout pour le debugger et les applications CLI, il est temps de voir comment ça marche dans un environnement web.</p>
 <p style="float: left">
-    <a href="./1-LOGGING.html">< Logging</a>
+  <a href="./1-LOGGING.html">< Logging</a>
 </p>
 <p style="float: right">
-    <a href="./1-DEBUGGING-WEB.html">Debugging d'une application web ></a>
+  <a href="./3-DEBUGGING-WEB.html">Debugging d'une application web ></a>
 </p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

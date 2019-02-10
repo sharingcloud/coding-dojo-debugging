@@ -148,33 +148,35 @@
 <p>Pour utiliser des paquets Python sans écraser l'environnement système, on va utiliser un <strong>virtualenv</strong>.
 Un <em>virtualenv</em> est une sorte d'installation Python <em>indépendante</em>, avec ses propres paquets.</p>
 <p>Voici ce qu'il faut taper:</p>
-<pre><code class="language-bash">pip install virtualenv
+<pre><code class="language-bash">&gt; pip install virtualenv
 </code></pre>
 <p>Ensuite, la création de ce virtualenv:</p>
-<pre><code class="language-bash">virtualenv -p python3 ./venv
+<pre><code class="language-bash">&gt; virtualenv -p python3 ./venv
 </code></pre>
 <p>Une fois le virtualenv crée, il faut l'activer:</p>
 <pre><code class="language-bash"># Pour Windows, sous Powershell
-./venv/Scripts/activate.ps1
+&gt; ./venv/Scripts/activate.ps1
 # Pour Windows, sous cmd
-./venv/Scripts/activate.bat
+&gt; ./venv/Scripts/activate.bat
 # Pour Linux
-source ./venv/bin/activate
+&gt; source ./venv/bin/activate
 </code></pre>
 <p>Une fois dans le virtualenv, le <em>prompt</em> de la console va changer avec le texte <code>(venv)</code> devant.</p>
 <pre><code class="language-bash"># Exemple avec Powershell
 (venv) PS C:\.....&gt; _
 </code></pre>
 <p>D'ici, on peut installer les paquets nécessaires:</p>
-<pre><code class="language-bash">pip install -r requirements.txt
+<pre><code class="language-bash">&gt; pip install -r requirements.txt
 </code></pre>
 <p>Pour être sûr que tout est bon, on peut essayer d'ouvrir une session <code>ipython</code>:</p>
-<pre><code class="language-bash">ipython
+<pre><code class="language-bash">&gt; ipython
 </code></pre>
 <p>S'il s'ouvre et qu'un <code>In [1]</code> apparaît, c'est good !</p>
+<hr />
 <div style="float: right">
     <a href="./1-LOGGING.html">Prochaine étape: le logging ></a>
-</div><a class="header" href="#section-1---le-logging" id="section-1---le-logging"><h1>Section 1 - Le logging</h1></a>
+</div>
+<a class="header" href="#section-1---le-logging" id="section-1---le-logging"><h1>Section 1 - Le logging</h1></a>
 <p>Avant de commencer à aborder le debugging, on va vite fait voir les autres façons classiques de faire.</p>
 <a class="header" href="#a1-la-classique---le-printf-debugging" id="a1-la-classique---le-printf-debugging"><h2>1. La classique - le printf-debugging</h2></a>
 <p>Ce nom vient du langage C et de l'utilisation de <code>printf</code> (équivalent en gros de la fonction <code>print</code> de Python) qui permet facilement et rapidement d'afficher quelque chose sur la sortie standard.</p>
@@ -208,7 +210,7 @@ logging.info(&quot;Je suis une info&quot;)
 logging.error(&quot;Je suis une erreur&quot;)
 </code></pre>
 <p>Un exemple complet est dans le dossier <code>examples/1-logging</code>. Pour lancer le script, il faut exécuter:</p>
-<pre><code class="language-bash">python examples/1-logging/main.py
+<pre><code class="language-bash">&gt; python examples/1-logging/main.py
 </code></pre>
 <p>La sortie devrait donner ça:</p>
 <pre><code class="language-text">[__main__] INFO 2019-02-07 22:16:50,779 Je démarre le script...
@@ -267,21 +269,23 @@ logging.error(&quot;Je suis une erreur&quot;)
 </li>
 </ul>
 <p>Si vous êtes OK sur ces exercices, on passe à la suite !</p>
+<hr />
 <p style="float: left">
     <a href="./0-INTRODUCTION.html">< Introduction</a>
 </p>
 <p style="float: right">
     <a href="./2-DEBUGGING-CLI.html">Debugging d'une application CLI ></a>
-</p><a class="header" href="#section-2---le-debugging-dune-application-cli" id="section-2---le-debugging-dune-application-cli"><h1>Section 2 - Le debugging d'une application CLI</h1></a>
+</p>
+<a class="header" href="#section-2---le-debugging-dune-application-cli" id="section-2---le-debugging-dune-application-cli"><h1>Section 2 - Le debugging d'une application CLI</h1></a>
 <p>Pour afficher certaines informations rapidement, on a vu que le printf-debugging ou le logging peuvent être très utiles.</p>
-<p>Malheureusement, il peut arriver qu'on veuille regarder le contenu d'une certaine variable à un instant <code>t</code> sans changer le code, exécuter un bout de fonction, réaliser un import ou supprimer le cache en plein milieu d'une fonction dans changer le code (pour tester un certain chemin par exemple).</p>
+<p>Malheureusement, il peut arriver qu'on veuille regarder le contenu d'une certaine variable à un instant <em>t</em> sans changer le code, exécuter un bout de fonction, réaliser un import ou supprimer le cache en plein milieu d'une fonction dans changer le code (pour tester un certain chemin par exemple).</p>
 <p>Il est possible de faire ça et encore plus à l'aide d'un outil fort pratique: le <strong>debugger</strong>.
 Dans l'univers Python, le debugger s'appelle <strong>pdb</strong>. Mais je vais vous présenter un outil plus propre et plus puissant basé dessus: <strong>ipdb</strong> (la plupart des commandes sont les mêmes).</p>
 <a class="header" href="#a1-découverte-de-lapp-de-tâches" id="a1-découverte-de-lapp-de-tâches"><h2>1. Découverte de l'app de tâches</h2></a>
 <p>Dans le dossier <code>examples/2-debugging-cli</code> vous trouverez une petite appli de gestion de TODO.
 Prenez le temps de regarder le code, il est pas trop complexe et facile à comprendre.</p>
 <p>Pour l'exécuter (s'assurer qu'on a bien chargé le virtualenv):</p>
-<pre><code class="language-bash">python examples/2-debugging-cli/main.py
+<pre><code class="language-bash">&gt; python examples/2-debugging-cli/main.py
 </code></pre>
 <pre><code class="language-text">[tasks.cli] INFO 2019-02-08 12:14:54,301 Running task client...
 
@@ -308,7 +312,7 @@ ID | Title                        | Date            | Done
 <a class="header" href="#a2-lentrée-du-debugger" id="a2-lentrée-du-debugger"><h2>2. L'entrée du debugger</h2></a>
 <p>Documentation officielle: <a href="https://docs.python.org/3.6/library/pdb.html">https://docs.python.org/3.6/library/pdb.html</a></p>
 <p>Pour entrer, tapez ça (juste ajouter <code>-m ipdb</code> avant):</p>
-<pre><code class="language-bash">python -m ipdb examples/2-debugging-cli/main.py
+<pre><code class="language-bash">&gt; python -m ipdb examples/2-debugging-cli/main.py
 </code></pre>
 <pre><code class="language-text">&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\main.py(1)&lt;module&gt;()
 ----&gt; 1 &quot;&quot;&quot;Main.&quot;&quot;&quot;
@@ -358,10 +362,16 @@ ipdb&gt; _
 </li>
 <li><strong>tb</strong>/tbreak - Ajouter un breakpoint temporaire: une fois passé, il disparaît</li>
 <li><strong>disable</strong> <em>id</em> - Désactive un breakpoint par son ID</li>
+<li><strong>restart</strong> - Recommence le debugger depuis le début</li>
+<li><strong>q</strong>/quit - Quitter le debugger</li>
 </ul>
 <p>C'est une grosse liste de commandes, et on apprend pas ça juste en lisant, pour commencer à maîtriser le debugger il faut pratiquer !</p>
-<a class="header" href="#a-exploration-dans-la-hiérarchie" id="a-exploration-dans-la-hiérarchie"><h3>a. Exploration dans la hiérarchie</h3></a>
-<p>On peut commencer avec <em>w</em>(here) pour savoir où on se trouve:</p>
+<blockquote>
+<p>Attention: si vous allez trop vite et passez une fonction au lieu d'entrer dedans, pas de panique, vous pouvez recommencer
+avec la commande <strong>restart</strong>, ou en sortant de pdb avec <strong>q</strong> et en relançant la commande. Je pense que ça va vous arriver assez souvent au début.</p>
+</blockquote>
+<a class="header" href="#a3-exploration-dans-la-hiérarchie" id="a3-exploration-dans-la-hiérarchie"><h2>3. Exploration dans la hiérarchie</h2></a>
+<p>On peut commencer avec <strong>w</strong>(here) pour savoir où on se trouve:</p>
 <pre><code class="language-text">ipdb&gt; w
   c:\...\python\current\lib\bdb.py(585)run()
     584         try:
@@ -400,7 +410,7 @@ Si on fait <strong>l</strong>(ist) ou <strong>ll</strong>, on voit le code coura
 ipdb&gt; _
 </code></pre>
 <p>On peut ensuite redescendre dans notre <code>main.py</code> en appelant 2 fois <strong>d</strong>(own).</p>
-<a class="header" href="#b-step-by-step" id="b-step-by-step"><h3>b. Step-by-step</h3></a>
+<a class="header" href="#a4-step-by-step" id="a4-step-by-step"><h2>4. Step-by-step</h2></a>
 <p>On va avancer dans le code en faisant 4 fois <strong>n</strong>(ext), jusqu'a ce que la ligne courante soit la ligne 12, avec l'appel à <code>main()</code>.</p>
 <blockquote>
 <p>Conseil: si on ne tape pas de commande et qu'on valide, la commande précédente est utilisée.</p>
@@ -431,17 +441,17 @@ Un des intérêts à utiliser <code>ipdb</code> plutot que le <code>pdb</code> s
 <p>On continue notre exploration en entrant dans la fonction <code>run</code>:</p>
 <pre><code class="language-text">ipdb&gt; s
 --Call--
-&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(37)run()
-     36
----&gt; 37     def run(self):
-     38         logger.info(&quot;Running task client...&quot;)
+&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(38)run()
+     37
+---&gt; 38     def run(self):
+     39         logger.info(&quot;Running task client...&quot;)
 
 ipdb&gt; _
 </code></pre>
-<p>On va tenter de placer un breakpoint sur l'appel de la fonction <code>prompt_action</code>. En listant le code (<strong>ll</strong>), on voit que l'appel est sur la ligne <em>46</em>.
-On peut donc taper <code>b 46</code>.</p>
-<pre><code class="language-text">ipdb&gt; b 46
-Breakpoint 1 at c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py:46
+<p>On va tenter de placer un breakpoint sur l'appel de la fonction <code>prompt_action</code>. En listant le code (<strong>ll</strong>), on voit que l'appel est sur la ligne <em>47</em>.
+On peut donc taper <code>b 47</code>.</p>
+<pre><code class="language-text">ipdb&gt; b 47
+Breakpoint 1 at c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py:47
 ipdb&gt; _
 </code></pre>
 <p>Ok, on a placé notre breakpoint, on peut maintenant continuer l'exécution du code jusqu'au bp en utilisant la commande <strong>c</strong>(ontinue).</p>
@@ -455,10 +465,10 @@ ID | Title                        | Date            | Done
 ---|------------------------------|-----------------|-------
 ---|------------------------------|-----------------|-------
 
-&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(46)run()
-     45             try:
-1--&gt; 46                 running = self.prompt_action()
-     47             except KeyboardInterrupt:
+&gt; c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(47)run()
+     46             try:
+1--&gt; 47                 running = self.prompt_action()
+     48             except KeyboardInterrupt:
 
 ipdb&gt; _
 </code></pre>
@@ -474,11 +484,13 @@ OrderedDict([('show task list', '_show_task_list'),
              ('remove task', '_remove_task'),
              ('export tasks', '_export_tasks'),
              ('import tasks', '_import_tasks'),
+             ('stats (buggy)', '_show_stats'),
              ('exit', '_exit')])
 ipdb&gt; _
 </code></pre>
 <p>D'ici, vous pouvez continuer l'exploration en utilisant tout ce que vous avez vu jusque là.</p>
-<a class="header" href="#c-exercice-1-trouve-le-code-caché" id="c-exercice-1-trouve-le-code-caché"><h3>c. Exercice 1: trouve le code caché</h3></a>
+<a class="header" href="#a5-exercices" id="a5-exercices"><h2>5. Exercices</h2></a>
+<a class="header" href="#exercice-1-trouve-le-code-caché" id="exercice-1-trouve-le-code-caché"><h3>Exercice 1: trouve le code caché</h3></a>
 <p>Le code contient un morceau de texte secret qu'il vous faut trouver sans lire ou modifier les sources depuis un éditeur et seulement en utilisant <strong>ipdb</strong>.
 Voici les indices:</p>
 <ul>
@@ -487,16 +499,135 @@ Voici les indices:</p>
 <li>Le code est stocké en base64. Vous pouvez décoder en utilisant la fonction <code>b64decode</code> de la lib standard <code>base64</code>.</li>
 <li>Il est possible d'exécuter du code arbitraire dans la session ipdb, en évitant d'écraser les commandes avec des noms de variables courts (donc il est également possible de faire des imports).</li>
 </ul>
-<a class="header" href="#d-exercice-2-crée-une-tâche-avant-le-démarrage-du-client" id="d-exercice-2-crée-une-tâche-avant-le-démarrage-du-client"><h3>d. Exercice 2: crée une tâche avant le démarrage du client</h3></a>
+<a class="header" href="#exercice-2-crée-une-tâche-avant-le-démarrage-du-client" id="exercice-2-crée-une-tâche-avant-le-démarrage-du-client"><h3>Exercice 2: crée une tâche avant le démarrage du client</h3></a>
 <p>C'est pas très compliqué, mais ça demande de se mettre au bon endroit au bon moment.
 Vous pouvez utiliser la fonction <code>add_task(title)</code> de l'objet <code>TaskManager</code>.</p>
+<a class="header" href="#exercice-3-fixer-le-bug-de-la-fonction-stats" id="exercice-3-fixer-le-bug-de-la-fonction-stats"><h3>Exercice 3: fixer le bug de la fonction stats</h3></a>
+<p>Visez la fonction <code>show_stats</code> de la classe <code>TaskManager</code>.</p>
+<ul>
+<li>Il est possible de changer les valeurs des variables à la volée</li>
+</ul>
+<hr />
 <p>C'est tout pour le debugger et les applications CLI, il est temps de voir comment ça marche dans un environnement web.</p>
 <p style="float: left">
-    <a href="./1-LOGGING.html">< Logging</a>
+  <a href="./1-LOGGING.html">< Logging</a>
 </p>
 <p style="float: right">
-    <a href="./1-DEBUGGING-WEB.html">Debugging d'une application web ></a>
-</p><a class="header" href="#debugging-dune-application-web" id="debugging-dune-application-web"><h1>Debugging d'une application web</h1></a>
+  <a href="./3-DEBUGGING-WEB.html">Debugging d'une application web ></a>
+</p>
+<a class="header" href="#section-3---debugging-dune-application-web" id="section-3---debugging-dune-application-web"><h1>Section 3 - Debugging d'une application web</h1></a>
+<p>On va passer aux choses sérieuses avec le debugging d'une application web sous Django 2.1,
+et on ne va pas traiter de n'importe quelle type d'application: on va tenter de résoudre un <strong>crackme</strong> !</p>
+<p>Les <strong>crackmes</strong> (ou <em>crackez-moi</em>) sont des petites applications utilisées pour s'entraîner sur le domaine du cracking, le plus souvent en explorant un dump assembleur et en comprenant ce qu'il se passe en détails, dans le but de trouver un code secret, trouver l'algorithme qui génère les codes secrets ou bien casser une protection.</p>
+<p><img src="./images/p1.gif" alt="crackme" /></p>
+<p>Evidemment on va pas voir d'assembleur ou de bytecode (bien qu'il est possible d'afficher le bytecode de n'importe quelle fonction en Python à l'aide du module <code>dis</code> et de la fonction <code>dis.dis</code>), mais le principe est le même. Sans se servir d'un éditeur de code, on va explorer le déroulement du code et trouver les codes secrets pour entrer dans la partie sécurisée de l'application.</p>
+<p>Le code est dans le dossier <code>examples/3-debugging-web</code>.</p>
+<a class="header" href="#a1-préparation-de-lapplication" id="a1-préparation-de-lapplication"><h2>1. Préparation de l'application</h2></a>
+<p>Sans oublier le virtualenv, allez dans le dossier de l'exemple:</p>
+<pre><code class="language-bash"># Appliquer les migrations
+&gt; python manage.py migrate
+
+# Démarrer le runserver
+&gt; python manage.py runserver
+</code></pre>
+<p>Vous pouvez maintenant ouvrir le navigateur à l'adresse <a href="http://localhost:8000">http://localhost:8000</a>.
+Si tout va bien, vous voyez une page de login (qui fait aussi page d'enregistrement).</p>
+<p>Choisissez un nom d'utilisateur et un mot de passe pour accéder à la page du challenge.</p>
+<p><img src="./images/challenge.png" alt="challenge" /></p>
+<p>Vous pouvez tenter tous les mots de passe que vous voulez, normalement vous ne devriez pas pouvoir passer.</p>
+<p>Une première solution peut être d'ouvrir les outils développeurs du navigateur et de voir ce qu'il se passe. Vous pouvez essayer, et voir si vous trouvez le moyen d'accéder à la page sécurisée.</p>
+<p>Vous pouvez ensuite stopper le runserver avec <em>CTRL+C</em>.</p>
+<a class="header" href="#a2-placer-des-breakpoints-dans-le-code" id="a2-placer-des-breakpoints-dans-le-code"><h2>2. Placer des breakpoints dans le code</h2></a>
+<p>Contrairement à l'application CLI, on ne va pas utiliser la commande <code>python -m ipdb</code>. A la place, on va directement placer des breakpoints dans le code à l'aide du one-liner:</p>
+<pre><code class="language-python">import ipdb; ipdb.set_trace()
+</code></pre>
+<p>Placez ce one-liner au tout début de la fonction <code>login</code> du fichier <code>crackme/views.py</code>, puis lancez le runserver avec des paramètres supplémentaires:</p>
+<pre><code class="language-bash">&gt; python manage.py runserver --nothreading --noreload
+
+# Vous pouvez aussi utiliser la commande custom 'debug-runserver' mise à disposition dans cet exemple
+</code></pre>
+<p>Le paramètre <code>nothreading</code> spécifie qu'il n'y aura qu'une seule connexion concurrente au maximum sur le serveur, et <code>noreload</code> désactive le rechargement automatique du serveur suite à la modification d'un fichier source.</p>
+<p>Pourquoi désactiver ces fonctionnalités ? A cause de <code>pdb</code>. Si plusieurs accès se font sur le serveur lors du debugging, vous allez être spammés avec les logs du serveur pendant votre session. Et vous allez faire bugguer <code>pdb</code> si le code se recharge en plein milieu d'une session.</p>
+<p>Donc c'est parti, on recharge la page de login sur <a href="http://localhost:8000/login">http://localhost:8000/login</a>.</p>
+<blockquote>
+<p>La page charge sans s'arrêter ? C'est normal. On a suspendu la récupération du contenu de la page.</p>
+</blockquote>
+<p>Si vous regardez votre shell, on voit qu'on est dans le code de la fonction <code>login</code>:</p>
+<pre><code class="language-text">&gt; c:\...\coding-dojo\cd1-debugging\examples\3-debugging-web\crackme\views.py(20)login()
+     19
+---&gt; 20     errors = {}
+     21
+
+ipdb&gt; _
+</code></pre>
+<p>Avec <strong>ll</strong>, vous pouvez retrouver le code, et faire du step-by-step en utilisant <strong>n</strong>, jusqu'à la fonction <code>render</code>. Via <strong>pp</strong>, vous pouvez afficher le contenu de n'importe quelle variable dans le scope, comme <code>request</code>, <code>context</code>, les composantes de <code>request</code> comme les <code>COOKIES</code>, <code>META</code> et d'autres choses encore.</p>
+<pre><code class="language-text">ipdb&gt; pp request.user
+&lt;SimpleLazyObject: &lt;django.contrib.auth.models.AnonymousUser object at 0x000002993E8B12E8&gt;&gt;
+</code></pre>
+<p>Dans cet extract, on voit qu'on est pas encore connecté (instance de <code>AnonymousUser</code>). On peut ensuite continuer l'exécution avec <strong>c</strong>, et normalement la page devrait finir de charger dans le navigateur.</p>
+<p>Tentez de vous connecter avec de nouveaux credentials et vous pourrez voir le détail de chaque opération dans le debugger, qui se remettera en pause lors de la validation. Mettez un breakpoint à la ligne <em>25</em>, juste après l'appel à <code>form.is_valid()</code>, ou allez-y via <strong>n</strong>.
+Avec <strong>pp</strong>, vous pouvez récupérer les données contenues dans le formulaire <em>validé</em> via l'attribut <code>cleaned_data</code>.</p>
+<pre><code class="language-text">ipdb&gt; pp form.cleaned_data
+{'existing': True,
+ 'password': 'admin',
+ 'user': &lt;User: admin&gt;,
+ 'username': 'admin'}
+ipdb&gt; _
+</code></pre>
+<p>Vous pouvez explorer si vous voulez, puis continuer avec <strong>c</strong> pour permettre au navigateur de récupérer la réponse.</p>
+<p>Vous pouvez stopper le serveur et enlever le one-liner de la fonction login.</p>
+<blockquote>
+<p>Attention: il y a un défaut assez gênant dans l'utilisation de pdb avec runserver: il peut arriver que vous n'ayez plus la main sur le serveur (à cause de pdb) et vous ne pourrez pas transmettre d'input au serveur pour l'éteindre, la fermeture du terminal restant l'option la plus simple.<br />
+Pour bypass ce problème, il suffit de CTRL+C, puis rouvrir une session pdb en passant sur la ligne de debug et de quitter le pdb ouvert avec <em>q</em>.</p>
+</blockquote>
+<a class="header" href="#a3-récupérer-le-code" id="a3-récupérer-le-code"><h2>3. Récupérer le code</h2></a>
+<p>On va tenter de récupérer le code. Placez le one-liner de debug au début de la fonction <code>check_code</code> du fichier <code>views.py</code>. Et relancez le serveur.</p>
+<p>Une fois sur la page de challenge, entrez n'importe quoi et appuyez sur <em>Submit</em>. Le shell devrait réagir et finir sur <em>pdb</em>.</p>
+<pre><code class="language-text">&gt; c:\...\coding-dojo\cd1-debugging\examples\3-debugging-web\crackme\views.py(64)check_code()
+     63
+---&gt; 64     hexcode = request.session.get(&quot;generated_hex&quot;)
+     65     passcode = request.POST.get(&quot;code&quot;)
+
+ipdb&gt; _
+</code></pre>
+<p>Faites <strong>n</strong> deux fois pour atterir sur la ligne 67. On va analyser un peu ce qu'il se passe.
+On peut commencer par observer le contenu de <code>hexcode</code> et de <code>passcode</code>.</p>
+<pre><code class="language-text">ipdb&gt; p hexcode
+'HbhaWEjLHEJjcwNiRrsVFkuvksWzhZJy'
+ipdb&gt; p passcode
+'toto'
+ipdb&gt; _
+</code></pre>
+<p>Sur la ligne 67, on voit un appel à une fonction <code>generate_code</code> qui prend le <code>hexcode</code> en paramètre.</p>
+<p>D'ici on a deux solutions:</p>
+<ul>
+<li>soit on step dans la fonction de génération, on comprend comment elle fonctionne et on craft notre propre code en fonction de notre <em>hexcode</em></li>
+<li>soit on s'en fout, on génère un code avec cette même fonction, on l'écrit sur un bout de papier et on se connecte avec</li>
+</ul>
+<p>On va prendre la deuxième option, hop:</p>
+<pre><code class="language-text">ipdb&gt; pp generate_code(hexcode)
+'EVJTEEVJ-QEEVBQEE-BBQETBBQ-QTBBVQTB'
+ipdb&gt; _
+</code></pre>
+<blockquote>
+<p>Attention: le hexcode change à chaque chargement de la page de challenge.</p>
+</blockquote>
+<p>Bon, on note le code, on continue l'exécution avec <strong>c</strong> et on essaye de se connecter depuis le navigateur.</p>
+<p>On entre le code, on valide, et bim on retourne dans le shell où on peut s'assurer via <strong>n</strong> que le test de code est bien valide et qu'on renvoie un code <em>204</em>. <em>tada</em></p>
+<p><img src="./images/success.png" alt="success" /></p>
+<a class="header" href="#a4-bonus" id="a4-bonus"><h2>4. Bonus</h2></a>
+<p>Comme présenté sur le screenshot précédent, vous pouvez tenter d'accéder à la page <a href="http://localhost:8000/bonus">/bonus</a>. Sur erreur, vous êtes redirigé sur la page de challenge. Bonne chance !</p>
+<blockquote>
+<ul>
+<li>1er indice: c'est juste une histoire de décorateur (debut du labyrinthe <code>decorators.py:11</code>).</li>
+<li>2e indice: le 3e décorateur est plus piège, il faut trouver une valeur qui n'est pas égale à elle-même. Il me semble que c'est un certain nombre qui peut faire l'affaire (a moins que ça ne soit pas un nombre ?)</li>
+</ul>
+</blockquote>
+<hr />
+<p>Et voilà, c'est fini pour aujourd'hui ! Vous devriez plutôt bien gérer <em>pdb</em> maintenant.</p>
+<p style="float: left">
+  <a href="./2-DEBUGGING-CLI.html">< Debugging d'une application CLI</a>
+</p>
 
                     </main>
 

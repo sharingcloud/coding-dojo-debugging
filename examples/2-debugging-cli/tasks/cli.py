@@ -26,6 +26,7 @@ ACTION_HANDLERS = OrderedDict({
     'remove task': '_remove_task',
     'export tasks': '_export_tasks',
     'import tasks': '_import_tasks',
+    'stats (buggy)': '_show_stats',
     'exit': '_exit'
 })
 
@@ -46,6 +47,8 @@ class TaskClient:
                 running = self.prompt_action()
             except KeyboardInterrupt:
                 pass
+            except Exception as exc:
+                logger.exception(exc)
 
         logger.info("Stopping task client...")
 
@@ -100,6 +103,10 @@ class TaskClient:
         path = questionary.text("Input path").ask()
         self.mgr.import_tasks(path)
         self.mgr.show_tasks()
+        return True
+
+    def _show_stats(self):
+        self.mgr.show_stats()
         return True
 
     def _exit(self):

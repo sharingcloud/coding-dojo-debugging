@@ -154,3 +154,15 @@ class TaskManager:
 
         self.task_index = {t.task_id: t for t in tasks}
         logger.info(f"Tasks imported from {input_path}")
+
+    def show_stats(self):
+        """Show stats. Contains an error."""
+        keys = len(self.task_index.keys())
+        total_count = len(keys)
+        done_count = sum(1 for k in keys if self.task_index[k].done)
+        remaining_count = total_count - done_count
+
+        print(
+            f"Total: {total_count} - Done: {done_count} - "
+            f"Remaining: {remaining_count}"
+        )

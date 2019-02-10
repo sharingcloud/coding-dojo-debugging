@@ -7,3 +7,6 @@ __pycache__
 
 # mdbook
 _guide_src/mdbook.exe
+
+# Django
+db.sqlite3

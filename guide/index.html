@@ -148,33 +148,35 @@
 <p>Pour utiliser des paquets Python sans écraser l'environnement système, on va utiliser un <strong>virtualenv</strong>.
 Un <em>virtualenv</em> est une sorte d'installation Python <em>indépendante</em>, avec ses propres paquets.</p>
 <p>Voici ce qu'il faut taper:</p>
-<pre><code class="language-bash">pip install virtualenv
+<pre><code class="language-bash">&gt; pip install virtualenv
 </code></pre>
 <p>Ensuite, la création de ce virtualenv:</p>
-<pre><code class="language-bash">virtualenv -p python3 ./venv
+<pre><code class="language-bash">&gt; virtualenv -p python3 ./venv
 </code></pre>
 <p>Une fois le virtualenv crée, il faut l'activer:</p>
 <pre><code class="language-bash"># Pour Windows, sous Powershell
-./venv/Scripts/activate.ps1
+&gt; ./venv/Scripts/activate.ps1
 # Pour Windows, sous cmd
-./venv/Scripts/activate.bat
+&gt; ./venv/Scripts/activate.bat
 # Pour Linux
-source ./venv/bin/activate
+&gt; source ./venv/bin/activate
 </code></pre>
 <p>Une fois dans le virtualenv, le <em>prompt</em> de la console va changer avec le texte <code>(venv)</code> devant.</p>
 <pre><code class="language-bash"># Exemple avec Powershell
 (venv) PS C:\.....&gt; _
 </code></pre>
 <p>D'ici, on peut installer les paquets nécessaires:</p>
-<pre><code class="language-bash">pip install -r requirements.txt
+<pre><code class="language-bash">&gt; pip install -r requirements.txt
 </code></pre>
 <p>Pour être sûr que tout est bon, on peut essayer d'ouvrir une session <code>ipython</code>:</p>
-<pre><code class="language-bash">ipython
+<pre><code class="language-bash">&gt; ipython
 </code></pre>
 <p>S'il s'ouvre et qu'un <code>In [1]</code> apparaît, c'est good !</p>
+<hr />
 <div style="float: right">
     <a href="./1-LOGGING.html">Prochaine étape: le logging ></a>
 </div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

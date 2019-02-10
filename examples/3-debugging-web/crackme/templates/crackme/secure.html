@@ -1,0 +1,32 @@
+{% extends "crackme/_base.html" %}
+
+{% block title %}Secure{% endblock title %}
+
+{% block body %}
+<header>
+  <div class="title">Crackme</div>
+  <div class="subtitle">Secured page</div>
+
+  <div class="content">
+    <p>Welcome, {{ request.user.username }}.</p>
+    <p>You successfully accessed to the secured page !</p>
+  </div>
+</header>
+
+<script>
+  $(document).ready(function () {
+    var $headerContent = $("header .content")
+    setTimeout(function() {
+      $headerContent.append("<p>Hex ID: {{ request.session.generated_hex }}.</p>")
+      $headerContent.append("<p>Passcode {{ request.session.passcode }} validated.</p>")
+    }, 1000);
+    setTimeout(function() {
+      $headerContent.append("<p>Congratulations!</p>")
+    }, 2000);
+    setTimeout(function() {
+      $headerContent.append(
+        "<p>You can now try to access the bonus page, located at <a href='{% url 'bonus' %}'>/bonus</a>.</p>")
+    }, 3000);
+  })
+</script>
+{% endblock body %}

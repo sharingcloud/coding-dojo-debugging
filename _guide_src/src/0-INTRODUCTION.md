@@ -17,24 +17,24 @@ Un *virtualenv* est une sorte d'installation Python *indépendante*, avec ses pr
 Voici ce qu'il faut taper:
 
 ```bash
-pip install virtualenv
+> pip install virtualenv
 ```
 
 Ensuite, la création de ce virtualenv:
 
 ```bash
-virtualenv -p python3 ./venv
+> virtualenv -p python3 ./venv
 ```
 
 Une fois le virtualenv crée, il faut l'activer:
 
 ```bash
 # Pour Windows, sous Powershell
-./venv/Scripts/activate.ps1
+> ./venv/Scripts/activate.ps1
 # Pour Windows, sous cmd
-./venv/Scripts/activate.bat
+> ./venv/Scripts/activate.bat
 # Pour Linux
-source ./venv/bin/activate
+> source ./venv/bin/activate
 ```
 
 Une fois dans le virtualenv, le *prompt* de la console va changer avec le texte `(venv)` devant.
@@ -47,16 +47,18 @@ Une fois dans le virtualenv, le *prompt* de la console va changer avec le texte 
 D'ici, on peut installer les paquets nécessaires:
 
 ```bash
-pip install -r requirements.txt
+> pip install -r requirements.txt
 ```
 
 Pour être sûr que tout est bon, on peut essayer d'ouvrir une session `ipython`:
 
 ```bash
-ipython
+> ipython
 ```
 
 S'il s'ouvre et qu'un `In [1]` apparaît, c'est good !
+
+<hr />
 
 <div style="float: right">
     <a href="./1-LOGGING.html">Prochaine étape: le logging ></a>

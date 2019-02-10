@@ -1,0 +1,17 @@
+{% extends "crackme/_base.html" %}
+
+{% block title %}Bonus{% endblock title %}
+
+{% block body %}
+<header>
+  <div class="title">Crackme</div>
+  <div class="subtitle">Bonus page</div>
+
+  <div class="content">
+    <p>Welcome, {{ request.user.username }}.</p>
+    <p>Congratulations for your access to the bonus page!</p>
+    <p>You now have nothing more to learn from this app.</p>
+    <p>Go use <b>pdb</b> everywhere !</p>
+  </div>
+</header>
+{% endblock body %}

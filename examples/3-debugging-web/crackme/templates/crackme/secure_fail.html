@@ -1,0 +1,33 @@
+{% extends "crackme/_base.html" %}
+
+{% block title %}Secure{% endblock title %}
+
+{% block body %}
+<header>
+  <div class="title">Crackme</div>
+  <div class="subtitle">Secured page</div>
+
+  <div class="content">
+    <p>Welcome, {{ request.user.username }}.</p>
+    <p>You successfully accessed to the secured page !</p>
+  </div>
+</header>
+
+<script>
+  $(document).ready(function () {
+    var $headerContent = $("header .content")
+    setTimeout(function() {
+      $headerContent.append("<p>Wait.</p>")
+    }, 1000);
+    setTimeout(function() {
+      $headerContent.append("<p>Your passcode is invalid.</p>")
+    }, 3000);
+    setTimeout(function() {
+      $headerContent.append("<p>ALERT! YOU WILL BE LOGGED OUT!</p>")
+    }, 5000);
+    setTimeout(function () {
+      window.location = "{% url 'logout' %}"
+    }, 7000);
+  })
+</script>
+{% endblock body %}

@@ -2,7 +2,7 @@
 
 Pour afficher certaines informations rapidement, on a vu que le printf-debugging ou le logging peuvent être très utiles.
 
-Malheureusement, il peut arriver qu'on veuille regarder le contenu d'une certaine variable à un instant `t` sans changer le code, exécuter un bout de fonction, réaliser un import ou supprimer le cache en plein milieu d'une fonction dans changer le code (pour tester un certain chemin par exemple).
+Malheureusement, il peut arriver qu'on veuille regarder le contenu d'une certaine variable à un instant *t* sans changer le code, exécuter un bout de fonction, réaliser un import ou supprimer le cache en plein milieu d'une fonction dans changer le code (pour tester un certain chemin par exemple).
 
 Il est possible de faire ça et encore plus à l'aide d'un outil fort pratique: le **debugger**.
 Dans l'univers Python, le debugger s'appelle **pdb**. Mais je vais vous présenter un outil plus propre et plus puissant basé dessus: **ipdb** (la plupart des commandes sont les mêmes).
@@ -15,7 +15,7 @@ Prenez le temps de regarder le code, il est pas trop complexe et facile à compr
 Pour l'exécuter (s'assurer qu'on a bien chargé le virtualenv):
 
 ```bash
-python examples/2-debugging-cli/main.py
+> python examples/2-debugging-cli/main.py
 ```
 
 ```text
@@ -51,7 +51,7 @@ Documentation officielle: [https://docs.python.org/3.6/library/pdb.html](https:/
 Pour entrer, tapez ça (juste ajouter `-m ipdb` avant):
 
 ```bash
-python -m ipdb examples/2-debugging-cli/main.py
+> python -m ipdb examples/2-debugging-cli/main.py
 ```
 
 ```text
@@ -99,17 +99,22 @@ Voici une liste des commandes principales avec des petites explications:
 - **u**/up - Remonte le contexte sur la fonction parent (utile pour les vars dessus)
 - **d**/down - Descend le contexte sur la fonction enfant (utile pour les vars dessous)
 - **b**/break *location* - Ajouter un breakpoint sur un fichier. Le paramètre peut être:
-    - Juste une ligne (ex. *86* pour mettre un bp à la ligne *86* du fichier courant)
-    - Un nom de fonction (ex. *toto* pour mettre un bp sur l'entrée de la fonction *toto* du fichier courant)
-    - Un chemin avec une ligne ou une fonction (ex. *c:\users\...\toto.py:42* pour mettre un bp à la ligne *42* sur le fichier *toto.py*)
+  - Juste une ligne (ex. *86* pour mettre un bp à la ligne *86* du fichier courant)
+  - Un nom de fonction (ex. *toto* pour mettre un bp sur l'entrée de la fonction *toto* du fichier courant)
+  - Un chemin avec une ligne ou une fonction (ex. *c:\users\...\toto.py:42* pour mettre un bp à la ligne *42* sur le fichier *toto.py*)
 - **tb**/tbreak - Ajouter un breakpoint temporaire: une fois passé, il disparaît
 - **disable** *id* - Désactive un breakpoint par son ID
+- **restart** - Recommence le debugger depuis le début
+- **q**/quit - Quitter le debugger
 
 C'est une grosse liste de commandes, et on apprend pas ça juste en lisant, pour commencer à maîtriser le debugger il faut pratiquer !
 
-### a. Exploration dans la hiérarchie
+> Attention: si vous allez trop vite et passez une fonction au lieu d'entrer dedans, pas de panique, vous pouvez recommencer
+> avec la commande **restart**, ou en sortant de pdb avec **q** et en relançant la commande. Je pense que ça va vous arriver assez souvent au début.
 
-On peut commencer avec *w*(here) pour savoir où on se trouve:
+## 3. Exploration dans la hiérarchie
+
+On peut commencer avec **w**(here) pour savoir où on se trouve:
 
 ```text
 ipdb> w
@@ -155,7 +160,7 @@ ipdb> _
 
 On peut ensuite redescendre dans notre `main.py` en appelant 2 fois **d**(own).
 
-### b. Step-by-step
+## 4. Step-by-step
 
 On va avancer dans le code en faisant 4 fois **n**(ext), jusqu'a ce que la ligne courante soit la ligne 12, avec l'appel à `main()`.
 
@@ -198,20 +203,20 @@ On continue notre exploration en entrant dans la fonction `run`:
 ```text
 ipdb> s
 --Call--
-> c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(37)run()
-     36
----> 37     def run(self):
-     38         logger.info("Running task client...")
+> c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(38)run()
+     37
+---> 38     def run(self):
+     39         logger.info("Running task client...")
 
 ipdb> _
 ```
 
-On va tenter de placer un breakpoint sur l'appel de la fonction `prompt_action`. En listant le code (**ll**), on voit que l'appel est sur la ligne *46*.
-On peut donc taper `b 46`.
+On va tenter de placer un breakpoint sur l'appel de la fonction `prompt_action`. En listant le code (**ll**), on voit que l'appel est sur la ligne *47*.
+On peut donc taper `b 47`.
 
 ```text
-ipdb> b 46
-Breakpoint 1 at c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py:46
+ipdb> b 47
+Breakpoint 1 at c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py:47
 ipdb> _
 ```
 
@@ -228,10 +233,10 @@ ID | Title                        | Date            | Done
 ---|------------------------------|-----------------|-------
 ---|------------------------------|-----------------|-------
 
-> c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(46)run()
-     45             try:
-1--> 46                 running = self.prompt_action()
-     47             except KeyboardInterrupt:
+> c:\...\coding-dojo\cd1-debugging\examples\2-debugging-cli\tasks\cli.py(47)run()
+     46             try:
+1--> 47                 running = self.prompt_action()
+     48             except KeyboardInterrupt:
 
 ipdb> _
 ```
@@ -250,13 +255,16 @@ OrderedDict([('show task list', '_show_task_list'),
              ('remove task', '_remove_task'),
              ('export tasks', '_export_tasks'),
              ('import tasks', '_import_tasks'),
+             ('stats (buggy)', '_show_stats'),
              ('exit', '_exit')])
 ipdb> _
 ```
 
 D'ici, vous pouvez continuer l'exploration en utilisant tout ce que vous avez vu jusque là.
 
-### c. Exercice 1: trouve le code caché
+## 5. Exercices
+
+### Exercice 1: trouve le code caché
 
 Le code contient un morceau de texte secret qu'il vous faut trouver sans lire ou modifier les sources depuis un éditeur et seulement en utilisant **ipdb**.
 Voici les indices:
@@ -266,17 +274,25 @@ Voici les indices:
 - Le code est stocké en base64. Vous pouvez décoder en utilisant la fonction `b64decode` de la lib standard `base64`.
 - Il est possible d'exécuter du code arbitraire dans la session ipdb, en évitant d'écraser les commandes avec des noms de variables courts (donc il est également possible de faire des imports).
 
-### d. Exercice 2: crée une tâche avant le démarrage du client
+### Exercice 2: crée une tâche avant le démarrage du client
 
 C'est pas très compliqué, mais ça demande de se mettre au bon endroit au bon moment.
 Vous pouvez utiliser la fonction `add_task(title)` de l'objet `TaskManager`.
 
+### Exercice 3: fixer le bug de la fonction stats
+
+Visez la fonction `show_stats` de la classe `TaskManager`.
+
+- Il est possible de changer les valeurs des variables à la volée
+
+<hr />
+
 C'est tout pour le debugger et les applications CLI, il est temps de voir comment ça marche dans un environnement web.
 
 <p style="float: left">
-    <a href="./1-LOGGING.html">< Logging</a>
+  <a href="./1-LOGGING.html">< Logging</a>
 </p>
 
 <p style="float: right">
-    <a href="./1-DEBUGGING-WEB.html">Debugging d'une application web ></a>
+  <a href="./3-DEBUGGING-WEB.html">Debugging d'une application web ></a>
 </p>
