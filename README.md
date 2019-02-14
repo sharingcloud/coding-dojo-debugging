@@ -2,4 +2,4 @@
 
 Session sur le logging et le debugging.
 
-Lien vers le tutoriel: [http://docs.sharingdev.com/coding-dojo/ch1-debugging/](http://docs.sharingdev.com/coding-dojo/ch1-debugging/)
+Lien vers le tutoriel: [https://docs.sharingdev.com/coding-dojo/ch1-debugging/](https://docs.sharingdev.com/coding-dojo/ch1-debugging/)
