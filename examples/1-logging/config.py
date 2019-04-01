@@ -6,10 +6,12 @@ LOGGING = {
         "simple": {"format": "[%(name)s] %(levelname)s %(message)s"},
     },
     "handlers": {
-        "console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "verbose"},
+        "console": {"level": "ERROR", "class": "logging.StreamHandler", "formatter": "verbose"},
     },
     "loggers": {
         "": {"handlers": ["console"], "level": "DEBUG"},
-        "__main__": {"handlers": ["console"], "level": "INFO"},
+        "spammer": {"handlers": [], "level": "DEBUG", "propagate": False},
+        "counter": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "__main__": {"handlers": ["console"], "level": "ERROR", "propagate": False},
     },
 }

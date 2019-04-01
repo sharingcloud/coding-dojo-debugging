@@ -21,9 +21,11 @@ def count_up_to(n):
 
 
 def count_and_spam():
+    logger.info("coucou")
     count_up_to(2)
     spammer.spam_debug()
     spammer.spam_info()
     count_up_to(-1)
     spammer.spam_error()
     count_up_to(10)
+    logger.info("coucou 2")
